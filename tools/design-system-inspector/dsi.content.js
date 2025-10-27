@@ -214,7 +214,7 @@
       dsiAttr &&
       groups.length &&
       groups[0].id.startsWith("data:")
-        ? `data-attr (${dsiAttr})`
+        ? dsiAttr
         : groups.length
         ? "pattern (merged)"
         : "none";
