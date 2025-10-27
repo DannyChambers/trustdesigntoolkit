@@ -6,7 +6,9 @@ const tools = [
 const toolList = document.getElementById("toolList");
 const subset = document.getElementById("subset");
 let activeTool = null;
-let dsiAttr = "data-component"; // UI-level state
+
+// Empty by default → pattern mode unless user types an attribute
+let dsiAttr = "";
 
 function renderTools() {
   toolList.innerHTML = "";
@@ -45,7 +47,8 @@ function renderSubset(toolId) {
   subset.innerHTML = "";
   if (toolId === "design-system-inspector") {
     const title = document.createElement("div");
-    title.innerHTML = "<strong>Design System Inspector</strong>";
+    title.innerHTML = "<h2 class='title'>Design System Inspector</h2>";
+
     const kv = document.createElement("div");
     kv.className = "kv";
     kv.innerHTML = `
@@ -55,17 +58,18 @@ function renderSubset(toolId) {
     `;
 
     const attrLabel = document.createElement("label");
-    attrLabel.textContent = "Detection attribute";
+    attrLabel.textContent = "Detect by:"; // merged wording per PRD
+
     const attrInput = document.createElement("input");
     attrInput.className = "input";
     attrInput.id = "dsiAttr";
-    attrInput.placeholder = "e.g. data-component or data-module";
-    attrInput.value = dsiAttr;
+    attrInput.placeholder = "e.g. data-component";
+    attrInput.value = dsiAttr; // stays empty by default
     attrInput.addEventListener("change", (e) => {
-      dsiAttr = e.target.value.trim() || "data-component";
+      dsiAttr = e.target.value.trim(); // no implicit fallback
       chrome.runtime.sendMessage({
         type: "SEND_TO_ACTIVE",
-        payload: { type: "DSI_SET_ATTR", attr: dsiAttr },
+        payload: { type: "DSI_SET_ATTR", attr: dsiAttr || null }, // null => pattern
       });
       chrome.runtime.sendMessage({
         type: "SEND_TO_ACTIVE",
@@ -75,6 +79,7 @@ function renderSubset(toolId) {
 
     const label = document.createElement("label");
     label.textContent = "Highlight";
+
     const select = document.createElement("select");
     select.className = "select";
     select.id = "dsiSelect";
@@ -85,15 +90,18 @@ function renderSubset(toolId) {
         payload: { type: "DSI_SELECT", name: id },
       });
     });
+
     subset.append(title, attrLabel, attrInput, kv, label, select);
   } else if (toolId === "copy-designer") {
     const title = document.createElement("div");
     title.innerHTML = "<strong>Copy Designer</strong>";
+
     const p = document.createElement("p");
     p.className = "placeholder";
-    p.textContent = "Hover to highlight text. Click to edit inline.";
+    p.textContent = "Hover webpage to highlight text. Click to edit inline.";
+
     const btn = document.createElement("button");
-    btn.className = "button primary";
+    btn.className = "button";
     btn.textContent = "Export Copy Deck (.docx)";
     btn.addEventListener("click", () => {
       chrome.runtime.sendMessage({
@@ -101,6 +109,7 @@ function renderSubset(toolId) {
         payload: { type: "COPY_EXPORT_DOCX" },
       });
     });
+
     const btnJson = document.createElement("button");
     btnJson.className = "button";
     btnJson.textContent = "Export Copy Deck (.json)";
@@ -110,23 +119,35 @@ function renderSubset(toolId) {
         payload: { type: "COPY_EXPORT_JSON" },
       });
     });
+
     subset.append(title, p, btn, btnJson);
   } else {
     subset.innerHTML = '<div class="placeholder">Select a tool to begin.</div>';
   }
 }
 
-// Messaging
+// Messaging from content scripts
 chrome.runtime.onMessage.addListener((msg) => {
   if (!msg) return;
+
   if (msg.type === "DSI_SUMMARY") {
     const detected = document.getElementById("dsiDetected");
     const count = document.getElementById("dsiComponentCount");
+    const instances = document.getElementById("dsiInstanceCount");
     const select = document.getElementById("dsiSelect");
+
     if (detected) detected.textContent = msg.detected || "—";
-    if (count)
+
+    if (count) {
       count.textContent =
         msg.totalComponents != null ? String(msg.totalComponents) : "0";
+    }
+
+    if (instances) {
+      instances.textContent =
+        msg.totalInstances != null ? String(msg.totalInstances) : "0";
+    }
+
     if (select) {
       select.innerHTML = "";
       (msg.components || []).forEach((item) => {
@@ -144,7 +165,7 @@ chrome.runtime.onMessage.addListener((msg) => {
     ) {
       chrome.runtime.sendMessage({
         type: "SEND_TO_ACTIVE",
-        payload: { type: "DSI_SET_ATTR", attr: dsiAttr },
+        payload: { type: "DSI_SET_ATTR", attr: dsiAttr || null }, // null => pattern mode
       });
       chrome.runtime.sendMessage({
         type: "SEND_TO_ACTIVE",

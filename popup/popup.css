@@ -73,8 +73,7 @@ body {
   transition: outline 0.12s ease, transform 0.06s ease, border-color 0.12s ease;
 }
 .tool:hover {
-  outline: 1px solid var(--accent);
-  transform: translateY(-1px);
+  background: var(--border);
 }
 .tool.active {
   border-color: var(--accent);
@@ -100,6 +99,13 @@ body {
   min-height: 160px;
   padding: 10px;
 }
+
+.title {
+  margin: 0 0 var(--size-3) 0;
+  font-weight: bold;
+  font-size: 14px;
+}
+
 .placeholder {
   color: var(--muted);
 }
@@ -123,17 +129,19 @@ body {
 }
 .button {
   cursor: pointer;
-}
-.button.primary {
-  background: var(--accent);
-  border-color: var(--accent);
+  margin-bottom: var(--size-2);
+
+  &:hover {
+    background-color: var(--accent);
+  }
 }
 
 .kv {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--size-1);
-  margin: 30px 0;
+  margin: var(--size-3) 0;
+  padding: var(--size-3);
   border: 1px solid var(--border);
   border-width: 1px 0;
 }
