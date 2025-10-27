@@ -44,6 +44,7 @@ body {
   height: 20px;
   border-radius: var(--size-0);
 }
+
 .title {
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -100,7 +101,7 @@ body {
   padding: 10px;
 }
 
-.title {
+h2.title {
   margin: 0 0 var(--size-3) 0;
   font-weight: bold;
   font-size: 14px;
