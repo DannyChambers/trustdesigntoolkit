@@ -1,22 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Trust Design Toolkit</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="popup.css" />
-  </head>
-  <body>
-    <header class="header">
-      <img src="../assets/trustdesign-wordmark.png" , alt="Logo" class="logo" />
-      <div class="title">Trust Design Toolkit</div>
-    </header>
-    <main class="main">
-      <section class="tool-list" id="toolList"></section>
-      <section class="subset" id="subset">
-        <div class="placeholder">Select a tool to begin.</div>
-      </section>
-    </main>
-    <script src="popup.js" defer></script>
-  </body>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Trust Design Toolkit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="./popup.css"/>
+</head>
+<body class="scheme--dark">
+  <header class="tdt-header">
+    <img class="tdt-logo" src="../assets/icon.png" alt="Trust Design" width="18" height="18"/>
+    <div class="tdt-title">Trust Design Toolkit</div>
+  </header>
+
+  <nav class="tabs">
+    <button data-tab="tools" class="is-active">Tools</button>
+    <button data-tab="settings">Settings</button>
+  </nav>
+
+  <section id="tab-tools" class="tab is-active">
+    <div class="layout">
+      <aside class="tool-list-wrap">
+        <ul id="tool-list" class="tool-list"></ul>
+      </aside>
+      <main id="tool-panel" class="tool-panel">
+        <div class="panel-placeholder">Select a tool to begin.</div>
+      </main>
+    </div>
+  </section>
+
+  <section id="tab-settings" class="tab">
+    <div id="settings-container"></div>
+  </section>
+
+  <script type="module" src="./popup.js"></script>
+</body>
 </html>

@@ -1,0 +1,110 @@
+{
+  "version": "1.0.0",
+  "categories": [
+    {
+      "id": "Transparency & Clarity",
+      "key": "transparency",
+      "weight": 0.25
+    },
+    {
+      "id": "Consent & Control",
+      "key": "consent",
+      "weight": 0.2
+    },
+    {
+      "id": "Honesty in Copy",
+      "key": "honesty",
+      "weight": 0.2
+    },
+    {
+      "id": "Data Practices",
+      "key": "data",
+      "weight": 0.2
+    },
+    {
+      "id": "Safety Signals",
+      "key": "safety",
+      "weight": 0.15
+    }
+  ],
+  "rules": [
+    {
+      "id": "urgency_copy",
+      "category": "honesty",
+      "severity": "medium",
+      "type": "text_regex",
+      "pattern": "(only|just)\\s+\\d+\\s+(left|remaining)|hurry|act now|last chance",
+      "flags": "i",
+      "penalty": 0.1
+    },
+    {
+      "id": "confirmshaming_copy",
+      "category": "honesty",
+      "severity": "high",
+      "type": "text_regex",
+      "pattern": "no,\\s*i(\\s|\\sdo\\s)?don['\u2019]?t.*(care|want)|i\\s+like\\s+spam",
+      "flags": "i",
+      "penalty": 0.15
+    },
+    {
+      "id": "preticked_consent",
+      "category": "consent",
+      "severity": "high",
+      "type": "dom_selector",
+      "selector": "input[type='checkbox'][checked]",
+      "nameMatch": "consent|marketing|newsletter|cookie",
+      "flags": "i",
+      "penalty": 0.2
+    },
+    {
+      "id": "countdown_timer",
+      "category": "honesty",
+      "severity": "medium",
+      "type": "dom_selector",
+      "selector": "[data-countdown], [class*='countdown'], [role='timer'], time[data-remaining]",
+      "penalty": 0.1
+    },
+    {
+      "id": "blocking_modal",
+      "category": "transparency",
+      "severity": "medium",
+      "type": "layout_overlay",
+      "penalty": 0.12
+    },
+    {
+      "id": "exit_blocker",
+      "category": "honesty",
+      "severity": "high",
+      "type": "event_presence",
+      "event": "beforeunload",
+      "penalty": 0.18
+    },
+    {
+      "id": "missing_privacy",
+      "category": "data",
+      "severity": "low",
+      "type": "link_presence",
+      "text": "privacy",
+      "shouldExist": true,
+      "penalty": 0.08
+    },
+    {
+      "id": "missing_terms",
+      "category": "transparency",
+      "severity": "low",
+      "type": "link_presence",
+      "text": "terms|conditions",
+      "shouldExist": true,
+      "penalty": 0.08
+    },
+    {
+      "id": "missing_contact",
+      "category": "safety",
+      "severity": "low",
+      "type": "link_presence",
+      "text": "contact|support",
+      "shouldExist": true,
+      "penalty": 0.08
+    }
+  ]
+}

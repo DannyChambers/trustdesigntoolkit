@@ -1,0 +1,16 @@
+<div class="panel-header"><h3>Trust Design Audit</h3><div id="tda-status" class="muted" style="margin-top:6px"></div></div>
+<div class="card">
+  <div class="btn-row">
+    <button id="tda-run" class="btn">Run</button>
+    <button id="tda-stop" class="btn">Stop</button>
+    <button id="tda-export" class="btn">Export JSON</button>
+  </div>
+  <div id="tda-locked" class="muted" style="display:none">
+    Add a license number in the settings screen to unlock premium tools.
+  </div>
+</div>
+<div class="card" id="tda-results" style="display:none">
+  <div id="tda-score" class="btn-row"></div>
+  <div id="tda-categories"></div>
+  <details id="tda-findings"><summary>Findings</summary><div id="tda-findings-body"></div></details>
+</div>

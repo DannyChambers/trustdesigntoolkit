@@ -1,21 +1,41 @@
 {
-  "name": "Trust Design Toolkit",
-  "description": "Modular popup wrapper with Design System Inspector and Copy Designer.",
-  "version": "1.1.4",
   "manifest_version": 3,
+  "name": "Trust Design Toolkit",
+  "version": "2.3.1",
+  "description": "Design System Inspector, Copy Designer, and Trust Design Audit.",
   "action": {
     "default_popup": "popup/popup.html",
     "default_title": "Trust Design Toolkit"
   },
-  "permissions": ["activeTab", "scripting", "storage"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "downloads"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
   "icons": {
-    "16": "assets/trustdesign-wordmark.png",
-    "48": "assets/trustdesign-wordmark.png",
-    "128": "assets/trustdesign-wordmark.png"
-  }
+    "128": "assets/icon.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "popup/*.js",
+        "popup/*.html",
+        "popup/*.css",
+        "tools/*/*.js",
+        "tools/*/*.json",
+        "tools/*/*.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
 }

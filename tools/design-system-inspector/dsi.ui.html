@@ -1,0 +1,16 @@
+<div class="panel-header"><h3>Design System Inspector</h3></div>
+<div class="card">
+  <label>Detect by attribute (default <code>data-component</code>):</label>
+  <input id="dsi-attr" placeholder="data-component"/>
+  <div class="muted">Change the attribute and click elsewhere to scan. Refresh the page to clear highlights.</div>
+</div>
+<div class="card">
+  <div id="dsi-counters" class="muted"></div>
+  <div class="muted" id="dsi-summary" style="margin-top:6px"></div>
+  <label style="margin-top:8px">Highlight</label>
+  <select id="dsi-components"></select>
+</div>
+<div class="card btn-row">
+  <button id="dsi-export-json" class="btn">Export JSON</button>
+  <button id="dsi-export-docx" class="btn">Export DOCX</button>
+</div>
