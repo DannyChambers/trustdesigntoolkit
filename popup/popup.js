@@ -183,3 +183,73 @@ function activateTool(toolId) {
 }
 
 renderTools();
+
+/* --------------------------------------------------
+   Simple persistence for Trust Design Toolkit
+   (no logic changes, just remembers last state)
+-------------------------------------------------- */
+
+(async () => {
+  // Load saved state
+  const stored = await chrome.storage.local.get({
+    activeTool: null,
+    dsiAttr: "",
+    dsiSelected: "",
+  });
+
+  // --- Restore ---
+  const detectInput = document.querySelector("#dsi-detect");
+  const selectEl = document.querySelector("#dsi-select");
+  const activeBtn = stored.activeTool
+    ? document.querySelector(`.td-tool[data-tool="${stored.activeTool}"]`)
+    : null;
+
+  // Restore "Detect by" field
+  if (detectInput && stored.dsiAttr) {
+    detectInput.value = stored.dsiAttr;
+    detectInput.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  // Restore selected component
+  if (selectEl && stored.dsiSelected) {
+    const applySelection = () => {
+      if ([...selectEl.options].some((o) => o.value === stored.dsiSelected)) {
+        selectEl.value = stored.dsiSelected;
+        selectEl.dispatchEvent(new Event("change", { bubbles: true }));
+        document.removeEventListener("TD_DSI_OPTIONS_READY", applySelection);
+      }
+    };
+    document.addEventListener("TD_DSI_OPTIONS_READY", applySelection);
+    applySelection();
+  }
+
+  // Restore active tool (clicks your own button so your code runs)
+  if (activeBtn) activeBtn.click();
+
+  // --- Save updates ---
+  document.addEventListener(
+    "click",
+    async (e) => {
+      const btn = e.target.closest(".td-tool[data-tool]");
+      if (btn) {
+        await chrome.storage.local.set({ activeTool: btn.dataset.tool });
+      }
+    },
+    true
+  );
+
+  if (detectInput) {
+    detectInput.addEventListener("input", async (e) => {
+      await chrome.storage.local.set({
+        dsiAttr: e.target.value.trim(),
+        dsiSelected: "",
+      });
+    });
+  }
+
+  if (selectEl) {
+    selectEl.addEventListener("change", async (e) => {
+      await chrome.storage.local.set({ dsiSelected: e.target.value || "" });
+    });
+  }
+})();

@@ -1,0 +1,22 @@
+<!-- settings.popup.html -->
+<!-- Minimal, design-safe markup for a Settings tab in the Toolkit popup.
+     Relies on existing dark theme styles; uses lightweight classes only.
+-->
+<div class="settings-root">
+  <div class="card">
+    <label for="license-global">License (Toolkit)</label>
+    <input id="license-global" type="text" placeholder="TDT-ALL-XXXXXXXX-XXXX" />
+    <small>Optional global key that can unlock multiple modules.</small>
+  </div>
+
+  <div class="card">
+    <label for="license-tda">License (Trust Design Audit)</label>
+    <input id="license-tda" type="text" placeholder="TDT-TDA-XXXXXXXX-XXXX" />
+    <small>Module-specific key for the Trust Design Audit tool.</small>
+  </div>
+
+  <div class="actions">
+    <button id="license-save">Save</button>
+    <span id="license-status" class="muted"></span>
+  </div>
+</div>
